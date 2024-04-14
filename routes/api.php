@@ -15,7 +15,7 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
-Route::post('auth/register', [AuthController::class, 'register']); // Menggunakan array syntax untuk memanggil method
+Route::post('auth/register', [AuthController::class, 'register']);
 Route::post('auth/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {

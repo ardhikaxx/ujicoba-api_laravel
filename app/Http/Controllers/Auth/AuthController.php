@@ -64,14 +64,23 @@ class AuthController extends Controller
             ]);
         }
         
-        $token = $user->createToken('')->plainTextToken;
         $this->response['message'] = 'success';
         $this->response['data'] = [
-            'token' => $token
+            'id' => $user->id,
+            'email' => $user->email,
+            'nikIbu' => $user->nikIbu,
+            'namaIbu' => $user->namaIbu,
+            'tempat_lahir' => $user->tempat_lahir,
+            'tanggal_lahir' => $user->tanggal_lahir,
+            'alamat' => $user->alamat,
+            'telepon' => $user->telepon,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+            'token' => $user->createToken('')->plainTextToken
         ];
     
         return response()->json($this->response, 200);
-    }
+    }    
 
     public function me() {
         $user = Auth::user();
