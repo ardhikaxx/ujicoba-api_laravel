@@ -66,16 +66,6 @@ class AuthController extends Controller
         
         $this->response['message'] = 'success';
         $this->response['data'] = [
-            'id' => $user->id,
-            'email' => $user->email,
-            'nikIbu' => $user->nikIbu,
-            'namaIbu' => $user->namaIbu,
-            'tempat_lahir' => $user->tempat_lahir,
-            'tanggal_lahir' => $user->tanggal_lahir,
-            'alamat' => $user->alamat,
-            'telepon' => $user->telepon,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at,
             'token' => $user->createToken('')->plainTextToken
         ];
     
@@ -92,7 +82,7 @@ class AuthController extends Controller
     }
 
     public function logout() {
-        $logout = auth()->user()->currentAccessToken()->delete();
+        $logot = auth()->user()->currentAccessToken()->delete();
             
         $this->response['message'] = 'success';
 
