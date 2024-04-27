@@ -3,6 +3,7 @@
 // use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataIbuController;
+use App\Http\Controllers\ArtikelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/me', [DataIbuController::class, 'me']);
     Route::post('auth/logout', [DataIbuController::class, 'logout']);
 });
+
+Route::get('/artikels', [ArtikelController::class, 'index']);
