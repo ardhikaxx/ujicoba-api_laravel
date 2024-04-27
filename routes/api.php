@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DataIbuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +15,10 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
-Route::post('auth/register', [AuthController::class, 'register']);
-Route::post('auth/login', [AuthController::class, 'login']);
+Route::post('auth/register', [DataIbuController::class, 'register']);
+Route::post('auth/login', [DataIbuController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('auth/me', [AuthController::class, 'me']);
-    Route::post('auth/logout', [AuthController::class, 'logout']);
+    Route::get('auth/me', [DataIbuController::class, 'me']);
+    Route::post('auth/logout', [DataIbuController::class, 'logout']);
 });
