@@ -18,6 +18,8 @@ use App\Http\Controllers\ArtikelController;
 
 Route::post('auth/register', [DataIbuController::class, 'register']);
 Route::post('auth/login', [DataIbuController::class, 'login']);
+Route::post('auth/check-email', [DataIbuController::class, 'checkEmail']);
+Route::post('auth/change-password', [DataIbuController::class, 'changePassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/me', [DataIbuController::class, 'me']);

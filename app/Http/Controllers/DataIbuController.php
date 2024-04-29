@@ -16,7 +16,8 @@ class DataIbuController extends Controller
         'data' => null,
     ];
 
-    public function register(Request $req) {
+    public function register(Request $req)
+    {
         $req->validate([
             'email_orang_tua' => 'required|email|unique:orang_tua,email_orang_tua',
             'nik_ibu' => 'required',
@@ -30,7 +31,7 @@ class DataIbuController extends Controller
             'telepon' => 'required',
             'password_orang_tua' => 'required',
         ]);
-    
+
         $data = [
             'email_orang_tua' => $req->email_orang_tua,
             'nik_ibu' => $req->nik_ibu,
@@ -44,7 +45,7 @@ class DataIbuController extends Controller
             'telepon' => $req->telepon,
             'password_orang_tua' => Hash::make($req->password_orang_tua),
         ];
-    
+
         try {
             $user = DataIbu::create($data);
             $this->response['data'] = $user;
@@ -56,29 +57,31 @@ class DataIbuController extends Controller
         }
     }
 
-    public function login(Request $req) {
+    public function login(Request $req)
+    {
         $req->validate([
             'email_orang_tua' => 'required|email',
             'password_orang_tua' => 'required'
         ]);
-    
+
         $user = DataIbu::where('email_orang_tua', $req->email_orang_tua)->first();
-    
+
         if (!$user || !Hash::check($req->password_orang_tua, $user->password_orang_tua)) {
             return response()->json([
                 'message' => "failed",
             ]);
         }
-        
+
         $this->response['message'] = 'success';
         $this->response['data'] = [
             'token' => $user->createToken('')->plainTextToken
         ];
-    
-        return response()->json($this->response, 200);
-    }    
 
-    public function me() {
+        return response()->json($this->response, 200);
+    }
+
+    public function me()
+    {
         $user = Auth::guard('sanctum')->user();
 
         $this->response['message'] = 'success';
@@ -87,14 +90,56 @@ class DataIbuController extends Controller
         return response()->json($this->response, 200);
     }
 
-    public function logout() {
+    public function logout()
+    {
         $user = Auth::user();
         $user->tokens->each(function ($token) {
             $token->delete();
         });
-    
+
         $this->response['message'] = 'success';
-    
+
         return response()->json($this->response, 200);
     }
+
+    public function checkEmail(Request $request)
+    {
+        $request->validate([
+            'email_orang_tua' => 'required|email',
+        ]);
+
+        $email = $request->email_orang_tua;
+
+        $existingEmail = DataIbu::where('email_orang_tua', $email)->exists();
+
+        if ($existingEmail) {
+            $this->response['message'] = 'true';
+        } else {
+            $this->response['message'] = 'false';
+        }
+
+        return response()->json($this->response, 200);
+    }
+
+    public function changePassword(Request $request)
+{
+    $request->validate([
+        'email_orang_tua' => 'required|email',
+        'new_password' => 'required|min:6',
+    ]);
+
+    $email = $request->email_orang_tua;
+    $newPassword = Hash::make($request->new_password);
+
+    $user = DataIbu::where('email_orang_tua', $email)->first();
+
+    if ($user) {
+        $user->update(['password_orang_tua' => $newPassword]);
+        $this->response['message'] = 'Password successfully updated';
+        return response()->json($this->response, 200);
+    } else {
+        $this->response['message'] = 'User not found';
+        return response()->json($this->response, 404);
+    }
+}
 }
