@@ -19,6 +19,7 @@ class DataIbuController extends Controller
     public function register(Request $req)
     {
         $req->validate([
+            'no_kk' => 'required|unique:orang_tua,no_kk',
             'email_orang_tua' => 'required|email|unique:orang_tua,email_orang_tua',
             'nik_ibu' => 'required',
             'nama_ibu' => 'required',
@@ -32,19 +33,22 @@ class DataIbuController extends Controller
             'password_orang_tua' => 'required',
         ]);
 
-        $data = [
-            'email_orang_tua' => $req->email_orang_tua,
-            'nik_ibu' => $req->nik_ibu,
-            'nama_ibu' => $req->nama_ibu,
-            'tempat_lahir_ibu' => $req->tempat_lahir_ibu,
-            'tanggal_lahir_ibu' => $req->tanggal_lahir_ibu,
-            'gol_darah_ibu' => $req->gol_darah_ibu,
-            'nik_ayah' => $req->nik_ayah,
-            'nama_ayah' => $req->nama_ayah,
-            'alamat' => $req->alamat,
-            'telepon' => $req->telepon,
-            'password_orang_tua' => Hash::make($req->password_orang_tua),
-        ];
+        $data = $req->only([
+            'no_kk',
+            'nik_ibu',
+            'nama_ibu',
+            'tempat_lahir_ibu',
+            'tanggal_lahir_ibu',
+            'gol_darah_ibu',
+            'nik_ayah',
+            'nama_ayah',
+            'alamat',
+            'telepon',
+            'email_orang_tua',
+            'password_orang_tua',
+        ]);
+
+        $data['password_orang_tua'] = Hash::make($data['password_orang_tua']);
 
         try {
             $user = DataIbu::create($data);

@@ -12,10 +12,11 @@ class DataIbu extends Model
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'orang_tua';
-    protected $primaryKey = 'nik_ibu';
+    protected $primaryKey = 'no_kk';
     protected $fillable = [
-        'nama_ibu',
+        'no_kk',
         'nik_ibu',
+        'nama_ibu',
         'tempat_lahir_ibu',
         'tanggal_lahir_ibu',
         'gol_darah_ibu',
